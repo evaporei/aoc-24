@@ -27,7 +27,11 @@ char* read_text_file(const char *path) {
 
     char *contents = (char*) malloc(file_size + 1);
 
-    fread(contents, 1, file_size, file);
+    size_t amount_read = fread(contents, 1, file_size, file);
+    if (file_size != amount_read) {
+        fprintf(stderr, "too lazy to do more read syscalls %s\n", path);
+        return NULL;
+    }
     contents[file_size] = '\0';
 
     fclose(file);
@@ -53,7 +57,7 @@ int main(void) {
             c++;
 
         // input[start:c] == "mul" ?
-        if (strncmp(start, "mul", c - start) != 0)
+        if (strncmp(start, "mul", 3) != 0)
             goto next;
 
         // consume left paren
@@ -94,8 +98,6 @@ int main(void) {
         if (*c != ')')
             goto next;
 
-        printf("%d, %d\n", n1, n2);
-        
         // successfully parsed
         result += n1 * n2;
 
@@ -103,7 +105,5 @@ next:
         c++;
     }
 
-    printf("%llu\n", result);
-    // 158_190_940: too high
-    // 148_257_547: too low
+    printf("%llu\n", result); // 156388521
 }
