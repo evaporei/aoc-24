@@ -34,30 +34,29 @@ int main(void) {
             if ((atoi_ret = atoi(p)))
                 numbers[len++] = atoi_ret;
 
+        if (len == 0)
+            goto next;
+
+        if (numbers[0] > numbers[1])
+            inc = false;
+        else if (numbers[1] > numbers[0])
+            inc = true;
+        else
+            goto next;
+
         for (i = 1; i < len; i++) {
             if (numbers[i-1] > numbers[i]) {
-                if (i == 1) {
-                    inc = false;
-                } else if (i > 1 && inc) {
-                    goto next;
-                }
-                if (numbers[i-1] - numbers[i] > 3)
+                if (inc || numbers[i-1] - numbers[i] > 3)
                     goto next;
             } else if (numbers[i] > numbers[i-1]) {
-                if (i == 1) {
-                    inc = true;
-                } else if (i > 1 && !inc) {
+                if (!inc || numbers[i] - numbers[i-1] > 3)
                     goto next;
-                }
-                if (numbers[i] - numbers[i-1] > 3)
-                    goto next;
-            } else {
+            } else
                 goto next;
-            }
         }
 
-        if (len != 0)
-            safe_count += 1;
+        safe_count += 1;
+
 next:
         do {} while(0);
     }
