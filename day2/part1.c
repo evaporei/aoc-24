@@ -28,7 +28,7 @@ int main(void) {
     u16 safe_count = 0;
     bool inc;
 
-    while(fgets(line, buf_len, file)) {
+    while (fgets(line, buf_len, file)) {
         len = 0;
         for (char *p = strtok(line, " "); p != NULL; p = strtok(NULL, " "))
             if ((atoi_ret = atoi(p)))
